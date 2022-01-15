@@ -1,0 +1,3 @@
+select * from tab;
+select object_name user_objects
+where object_type or object_type='view';
