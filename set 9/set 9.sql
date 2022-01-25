@@ -228,6 +228,27 @@ begin
 end;
 /
 
+--15.Write a trigger which do not allow insertion / updation / deletion of Enterance test details on Sunday.
+
+create or replace trigger ueue
+	before insert or update or delete on entrance_test
+	for each row
+declare
+	msg varchar2(100);
+begin
+	msg:='';
+	if trim(to_char(sysdate,'DAY'))='MONDAY' then
+		if inserting then	
+			msg:='insert';
+		elsif updating then
+			msg:='update';
+		else 
+			msg:='delete';
+		end if;
+		RAISE_APPLICATION_ERROR(-20000,'you can not come' || msg || 'on Monday');
+	end if;
+end;
+/
 
 
 

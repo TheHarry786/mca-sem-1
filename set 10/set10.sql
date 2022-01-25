@@ -30,6 +30,7 @@ insert into routemaster values(51,'mum','jamu',4000,1000,40,'1-Dec-2021',101);
 insert into routemaster values(5,'mum','jamu',4000,1000,40,'1-Dec-2021',101);
 insert into routemaster values(405,'goa','sur',500,250,60,'3-Dec-2021',161);
 insert into routemaster values(123,'amr','jam',140,360,40,'5-Dec-2021',152);
+insert into routemaster values(127,'amr','jam',140,360,90,'5-Dec-2021',152);
 
 create table ticketheader
 (
@@ -83,6 +84,26 @@ where th.ticketno=td.ticketno group by th.boardplace,th.routeno HAVING count(td.
 --5. Display count of person who has traveled in each category.
 select count(td.ticketno),c.catdesc from ticket_details td,category c,routemaster r,ticketheader th 
 where c.cat_code=r.cat_code and r.routeno = th.routeno and th.ticketno=td.ticketno group by catdesc;
+
+--6. Write a trigger which allow to insert or update the bus capacity only greater than zero and less than 60.
+
+create or replace trigger uue
+	before insert or update or delete on routemaster
+	for each row
+declare
+	msg varchar2(100);
+begin
+	msg:='';
+	if :new.capacity < 0 or :new.capacity > 60 then
+		if inserting then	
+			msg:='insert';
+		elsif updating then
+			msg:='update';
+		end if;
+		RAISE_APPLICATION_ERROR(-20000,'you can not come' || msg || 'on Monday');
+	end if;
+end;
+/
 
 --7. Write a Procedure which will print tour details, a driver is going to take it. ( pass route_no as parameter)
 create or replace procedure print_tour_details(rno routemaster.routeno%type)

@@ -40,6 +40,7 @@ insert into PASSENGER_DETAILS values(189,'1010UP',7,'raj',25,'M','1-Oct-2021','I
 insert into PASSENGER_DETAILS values(17,'1010DN',21,'Misri',20,'F','2-Dec-2021','IIA');
 insert into PASSENGER_DETAILS values(80,'110DN',85,'Mira',59,'F','28-Nov-2021','IIIA');
 insert into PASSENGER_DETAILS values(98,'1010UP',87,'ram',40,'M','10-Oct-2021','IA');
+insert into PASSENGER_DETAILS values(97,'1010UP',87,'ram',102,'M','10-Oct-2021','IA');
 
 --
 create table TRAIN_SEAT_MASTER
@@ -148,5 +149,25 @@ is
 begin
 	select ARRIVAL_TIME,DEPARTURE_TIME,train_number into ats,dt,tt from train_master where train_number=tno;
 return('arrival time : '||ats||' destination time : '||dt ||' train number : '||tt);
+end;
+/
+
+--9. Write a trigger which do not allow to insert or update passenger record if age is greaterthan 100.
+
+create or replace trigger ouue
+	before insert or update or delete on PASSENGER_DETAILS
+	for each row
+declare
+	msg varchar2(100);
+begin
+	msg:='';
+	if :new.age > 100 then
+		if inserting then	
+			msg:='insert';
+		elsif updating then
+			msg:='update';
+		end if;
+		RAISE_APPLICATION_ERROR(-20000,'you can not come' || msg || 'insert');
+	end if;
 end;
 /

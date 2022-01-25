@@ -47,6 +47,17 @@ select count(fname),country from customerr group by country having count(fname)>
 select fname from customerr where cid in (select cid from odr group by cid having avg(oTotalAmount)
 BETWEEN 5000 and 10000); 
 
+--4. Create a trigger that executes whenever country is updated in CUSTOMER table.
+create or replace trigger oue
+	before update or delete on CUSTOMERR
+	for each row
+declare
+	msg varchar2(100);
+begin
+	dbms_output.put_line('you are updating record customer'||:old.country||'to'||:new.country||'country in customerr');
+end;
+/
+
 --5. Create a function to return customer with maximum orders.
 
 
