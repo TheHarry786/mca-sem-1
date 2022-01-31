@@ -1,0 +1,41 @@
+<script>
+        $(document).ready(function(){
+            $("#submit").click(function(){
+                var firstname = $("#fname").val();
+                var lastname = $("#lname").val();
+                var email = $("#email").val();
+                var message = $("#message").val();
+
+                $("#firstname").css("background-color","#fff");
+                $("#lastname").css("background-color","#fff");
+                $("#email").css("background-color","#fff");
+                $("#message").css("background-color","#fff");
+
+                if(firstname==''){
+                    alert("please fill first name");
+                    $("#firstname").focus();
+                    $("#firstname").css("background-color","ff0000");
+                    return false;
+                }
+                else if(lastname==''){
+                    alert("please fill last name");
+                    $("#lastname").focus();
+                    $("#lastname").css("background-color","ff0000");
+                    return false;
+                }  
+                else if(email==''){
+                    alert("please fill email");
+                    $("#email").focus();
+                    $("#email").css("background-color","ff0000");
+                    return false;
+                }
+                else if(message==''){
+                    alert("please fill message");
+                    $("#message").focus();
+                    $("#message").css("background-color","ff0000");
+                    return false;
+                }   
+
+            })
+        })
+    </script>
